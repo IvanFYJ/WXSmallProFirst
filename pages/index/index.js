@@ -61,6 +61,7 @@ Page({
           winHeight: res.windowHeight
         });
         console.log(res.windowHeight)
+        console.log(userInfo)
       }
 
     });
@@ -88,7 +89,7 @@ Page({
 
     var that = this;
     that.setData({ currentTab: e.detail.current });
-
+    console.log(e.detail.current)
   },
   /**
    * 点击tab切换

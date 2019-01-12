@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -14,7 +14,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.5.0",
 	"appid": "wx6b813882dc8b6d12",
-	"projectname": "firstpro",
+	"projectname": "WXSmallProFirst",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
