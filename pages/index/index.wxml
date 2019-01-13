@@ -40,10 +40,10 @@
       <block  wx:if="{{oauserInfo.uid > 0}}">
           <view>
           <view  class='itemView'>学号：
-          <input class="input" name="userName"value="{{oauserInfo.stunumber}}" placeholder="请输入学号" bindinput ="userNameInput"/>
+          <input disabled='true' class="input" name="userName"value="{{oauserInfo.stunumber}}" placeholder="请输入学号" bindinput ="userNameInput"/>
           </view>
           <view  class='itemView'>本机电话号码：
-          <input class="input" name="userPhoneName"value="{{oauserInfo.wxphone}}" placeholder="请输入号码" bindinput ="userPhoneInput"/>
+          <input class="input"  disabled='true' type='number' name="userPhoneName"value="{{oauserInfo.wxphone}}" placeholder="请输入号码" bindinput ="userPhoneInput"/>
           </view>
           </view>
           <view class="viewName" style="background-color:#fbf9fe">
@@ -55,8 +55,8 @@
     <swiper-item>
       <view><button bindtap='phoneBtnClick' >添加</button></view>
       <view class='itemView' wx:for="{{familyPhones}}" wx-for-item="item" >
-      <input class='fninput'  type='text' name='fPhoneName' value='{{item.name}}' data-id='{{item.id}}'  bindinput='fPhoneNameInput' ></input>
-      <input class='fphone' type='number'  name='fPhoneNumber' value='{{item.phone}}'  data-id='{{item.id}}'  bindinput='fPhoneNumberInput' ></input>
+      <input class='fninput'  type='text' placeholder="中文内容" name='fPhoneName' value='{{item.name}}' data-id='{{item.id}}'  bindinput='fPhoneNameInput' ></input>
+      <input class='fphone' type='number'  placeholder="电话号码"  name='fPhoneNumber' value='{{item.phone}}'  data-id='{{item.id}}'  bindinput='fPhoneNumberInput' ></input>
       <button class='fbtn' bindtap='pDelBtnClick' data-id='{{item.id}}'  >删除</button>
       </view>
       <view><button bindtap='pMBtnClick' >提交情亲号</button></view>

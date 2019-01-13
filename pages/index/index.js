@@ -366,6 +366,16 @@ Page({
     console.log(app.globalData.userInputSN)
     var cphoneStr = '';
     var cnameStr = '';
+
+    if (snumber == '') {
+      wx.showModal({
+        title: '提示',
+        content: '请绑定学号',
+        success: function (res) {
+        }
+      })
+      return
+    }
     for (var i = 0; i < this.data.familyPhones.length; i++) {
         cphoneStr += this.data.familyPhones[i].phone
         cnameStr += this.data.familyPhones[i].name
@@ -428,6 +438,15 @@ Page({
     var msg = this.data.userInputMsg
     var snumber = app.globalData.userInputSN
     if(msg == ''){
+      return
+    }
+    if (snumber == '') {
+      wx.showModal({
+        title: '提示',
+        content: '请绑定学号',
+        success: function (res) {
+        }
+      })
       return
     }
     var data = { student: snumber, phonenumber: app.globalData.userInputPhone, message: msg, action: 'setmsg', unionid: '' }
