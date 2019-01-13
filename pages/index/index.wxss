@@ -21,7 +21,7 @@
   display: none;
 }
 
-
+/**tab切换样式  开始**/
 .swiper-tab{
 	width: 100%;
 	border-bottom: 2rpx solid #777777;
@@ -41,3 +41,31 @@
 .swiper-box view{
 	text-align: center;
 }
+/**tab切换样式  接受**/
+
+
+/**页view切换样式  接受**/
+.itemView{
+  margin-top: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 35px;
+  
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+}
+.itemView .fninput{
+  border:1px solid lightgray;
+  width:100px;
+}
+.itemView .fphone{
+  border:1px solid lightgray;
+  width:125px;
+  margin-left:5px
+}
+.itemView .fbtn{
+  border:1px solid lightgray;
+  font-size:12px;
+}
+/**页view切换样式  接受**/
