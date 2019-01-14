@@ -34,6 +34,11 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    //oaurl:'https://www.fanyongjian.top:8080/Ajax/mechanical_manager.ashx',
+    oaurl: 'http://localhost:2398/Ajax/mechanical_manager.ashx',
+    token:'3fe686907939d07097f6c87f08025422',
+    appId: 'wx4f4bc4dec97d474b',
+    sessionKey:'tiihtNczf5v6AKRyjwEUhQ=='
   }
 })

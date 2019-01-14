@@ -1,0 +1,11 @@
+/* pages/student/student.wxss */
+.itemView{
+  width: 100%;
+}
+.fbtn{
+  width: 30%;
+  height: 40px;
+  float: left;
+  margin-top: 5px;
+  margin-left: 6px;
+}

@@ -490,4 +490,11 @@ Page({
       }
     })
   },
+  //4.0缴费
+  paytelephone:function(e){
+    console.log('跳转到缴费界面')
+    wx.navigateTo({
+      url: '/pages/grade/grade?shid=1'
+    })
+  },
 })
