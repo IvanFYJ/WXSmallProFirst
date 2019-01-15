@@ -38,7 +38,7 @@ App({
     //oaurl:'https://www.fanyongjian.top:8080/Ajax/mechanical_manager.ashx',
     oaurl: 'http://localhost:2398/Ajax/mechanical_manager.ashx',
     token:'3fe686907939d07097f6c87f08025422',
-    appId: 'wx4f4bc4dec97d474b',
-    sessionKey:'tiihtNczf5v6AKRyjwEUhQ=='
+    appId: 'wx466c0417b7717fcd',
+    sessionKey:'7351c79ffa24f6d706b1fd962ababc8d'
   }
 })

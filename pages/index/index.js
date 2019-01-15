@@ -3,21 +3,21 @@
 //这个地方一定要注意了，路径一定要写正确，不要用系统提示的会报错，../../才是根路径
 //获取应用实例  
 const app = getApp()
-var AppId = "wx347afc0cbbed78a1";
-var AppSecret = '18aeefc8eaf3025db14281f5a44f29f4';
+var AppId = app.globalData.appId;
+var AppSecret = app.globalData.sessionKey;
 var WXBizDataCrypt = require('../../utils/cryptojs/RdWXBizDataCrypt.js'); 
 //var WXBizDataCrypt = require('../../utils/WXBizDataCrypt')
 
-var appId = 'wx4f4bc4dec97d474b'
-var sessionKey = 'tiihtNczf5v6AKRyjwEUhQ=='
+//var appId = 'wx4f4bc4dec97d474b'
+//var sessionKey = 'tiihtNczf5v6AKRyjwEUhQ=='
 var regNum = new RegExp('[0-9]', 'g');
 
 
 Page({
   data: {
     motto: 'Hello World fanyongjian',
-    url: 'https://www.fanyongjian.top:8080/Ajax/mechanical_manager.ashx',
-    token:'3fe686907939d07097f6c87f08025422',
+    url: app.globalData.oaurl,
+    token: app.globalData.token,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -111,7 +111,7 @@ Page({
             var pc = new WXBizDataCrypt(AppId, res.data.Data.session_key)
             wx.getUserInfo({
               success: function (res) {
-                //console.log(res)
+                console.log(res)
                 //拿到getUserInfo（）取得的res.encryptedData, res.iv，调用decryptData（）解密
                 var data = pc.decryptData(res.encryptedData, res.iv)
                 // data.unionId就是咱们要的东西了
@@ -496,5 +496,11 @@ Page({
     wx.navigateTo({
       url: '/pages/grade/grade?shid=1'
     })
+  },
+  //5.0获取手机号
+  getPhoneNumber: function (e) {
+    console.log(e.detail.errMsg)
+    console.log(e.detail.iv)
+    console.log(e.detail.encryptedData)
   },
 })
