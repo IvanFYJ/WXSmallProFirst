@@ -5,8 +5,6 @@
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <button bindtap="paytelephone" >缴费</button>
-      <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>
     </block>
   </view>
   <view class="usermotto" >
@@ -23,12 +21,18 @@
 <swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 31}}px" bindchange="bindChange">
     <!-- 我是哈哈 -->
     <swiper-item>
-      <block wx:if="{{oauserInfo.uid <= 0}}">
+          <view style=''  class='itemView'>选择的学号：
+          <input disabled='true' class="input" name="userName"value="{{userInputSN}}" bindinput =""/>
+          </view>
+          <view style=''  class='itemView'>选择的学生：
+          <input disabled='true' class="input" name="userName"value="{{userInputSName}}" bindinput =""/>
+          </view>
+      <block wx:if="{{userInputPhone==''}}">
           <view>
-          <view  class='itemView'>学号：
+          <view  style='display:none;'  class='itemView'>学号：
           <input class="input" name="userName"value="" placeholder="请输入学号" bindinput ="userNameInput"/>
           </view>
-          <view  class='itemView'>密码：
+          <view  style='display:none;'  class='itemView'>密码：
           <input class="input" name="userPass"value="" password placeholder="请输入密码" bindinput ="userPassInput"/>
           </view>
           <view  class='itemView'>本机电话号码：
@@ -36,16 +40,17 @@
           </view>
           </view>
           <view class="viewName" style="background-color:#fbf9fe">
-          <button class="passBtn" bindtap="passBtnClick">绑定</button>
+          <button style='display:none;' class="passBtn" bindtap="passBtnClick">绑定</button>
+          <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">获取手机号</button>
           </view>
       </block>
-      <block  wx:if="{{oauserInfo.uid > 0}}">
+      <block  wx:else>
           <view>
-          <view  class='itemView'>学号：
+          <view style='display:none;'  class='itemView'>学号：
           <input disabled='true' class="input" name="userName"value="{{oauserInfo.stunumber}}" placeholder="请输入学号" bindinput ="userNameInput"/>
           </view>
-          <view  class='itemView'>本机电话号码：
-          <input class="input"  disabled='true' type='number' name="userPhoneName"value="{{oauserInfo.wxphone}}" placeholder="请输入号码" bindinput ="userPhoneInput"/>
+          <view  style='' class='itemView'>本机电话号码：
+          <input class="input"  disabled='true' type='number' name="userPhoneName"value="{{userInputPhone}}" placeholder="请输入号码" bindinput ="userPhoneInput"/>
           </view>
           </view>
           <view class="viewName" style="background-color:#fbf9fe">

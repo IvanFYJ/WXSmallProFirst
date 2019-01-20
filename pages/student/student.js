@@ -14,7 +14,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    //console.log(options)
     var _this = this;
     var gid = options.gid
     //发起网络请求 
@@ -23,6 +23,7 @@ Page({
       url: app.globalData.oaurl,
       data: {
         gid: gid,
+        openid: app.globalData.openId,
         action: 'getstudentbygid'
       },
       header: {
@@ -31,13 +32,23 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        console.log(res)
+       // console.log(res)
         if (res.data.data !== null) {
           _this.data.students = new Array()
-          console.log(res.data.Data.length)
-          _this.data.gname = res.data.Data[0].Gname
-          for (var i = 0; i < res.data.Data.length; i++) {
-            _this.data.students.push({ sid: res.data.Data[i].Sid, snumber: res.data.Data[i].Snumber, sname: res.data.Data[i].Sname })
+          console.log(res.data.Data.famList)
+          _this.data.gname = res.data.Data.stuList[0].Gname
+          for (var i = 0; i < res.data.Data.stuList.length; i++) {
+            var ntemp = res.data.Data.stuList[i].Snumber
+            var fstr = ''
+            if (res.data.Data.famList !== null && res.data.Data.famList !== undefined && res.data.Data.famList.length >0){
+              for (var j = 0; j < res.data.Data.famList.length ; j++){
+                if (ntemp == res.data.Data.famList[j].snumber){
+                  fstr='family';
+                }
+              }
+            }
+            _this.data.students.push({ sid: res.data.Data.stuList[i].Sid, snumber: res.data.Data.stuList[i].Snumber, sname: res.data.Data.stuList[i].Sname, family: fstr })
+            fstr = ''
           }
           _this.setData({
             students: _this.data.students,
@@ -101,17 +112,21 @@ Page({
    */
   payforstudent: function(e){
     var snum = e.currentTarget.dataset.snumber;
-    wx.showLoading({
-      title: '正在充值中...',
-    })
+    var sname = e.currentTarget.dataset.sname;
+    // wx.showLoading({
+    //   title: '正在充值中...',
+    // })
 
-    setTimeout(function () {
-      wx.hideLoading()
-      wx.showToast({
-        title: '充值成功!',
-        icon: 'success',
-        duration: 2000
-      })
-    }, 5000)
+    // setTimeout(function () {
+    //   wx.hideLoading()
+    //   wx.showToast({
+    //     title: '充值成功!',
+    //     icon: 'success',
+    //     duration: 2000
+    //   })
+    // }, 5000)
+    wx.navigateTo({
+      url: '/pages/index/index?snumber=' + snum + '&sname=' + sname
+    })
   }
 })

@@ -26,11 +26,13 @@ Page({
     currentTab: 0,
     userInputMsg:'',//用户留言信息
     userInputSN: '',//用户学号信息
+    userInputSName: '',//用户名称
     userInputPW: '',//用户密码信息
     userInputPhone:'',//用户本机号码信息
     unionid:'',
     openId:'',
     encryptedData: '' ,
+    encryptedObject:{},
     oauserInfo:{},
     familyPhones: [{ id: 0, name: '', phone: '' }]
   },
@@ -46,8 +48,13 @@ Page({
     })
   },
   //加载数据
-  onLoad: function () {
+  onLoad: function (options) {
     var that = this
+    if (options !== undefined) {
+      console.log(options.sname+':'+options.snumber)
+      that.data.userInputSName = options.sname
+      that.data.userInputSN = options.snumber
+    }
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -66,7 +73,7 @@ Page({
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
-          console.log('111111')
+          //console.log('111111')
           app.globalData.userInfo = res.userInfo
           this.setData({
             userInfo: res.userInfo,
@@ -109,21 +116,23 @@ Page({
             //console.log(res.data.Data.session_key)
             //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
             var pc = new WXBizDataCrypt(AppId, res.data.Data.session_key)
+            that.data.encryptedObject = pc
             wx.getUserInfo({
               success: function (res) {
-                console.log(res)
+                //console.log(res)
                 //拿到getUserInfo（）取得的res.encryptedData, res.iv，调用decryptData（）解密
                 var data = pc.decryptData(res.encryptedData, res.iv)
                 // data.unionId就是咱们要的东西了
                 //console.log(data)
                 app.globalData.unionid = data.unionId
                 app.globalData.openId = data.openId
-                console.log('解密后 openId: ', app.globalData.openId)
+                //console.log('解密后 openId: ', app.globalData.openId)
                 //获取OA用户信息
                 wx.request({
                   url: that.data.url,
                   data: {
                     openId: app.globalData.openId,
+                    snumber: that.data.userInputSN,
                     action: 'wxgetuser'
                   },
                   header: {
@@ -132,14 +141,16 @@ Page({
                   },
                   method: 'POST',
                   success: function (res) {
+                    console.log(res)
                     if (res.data.Data !== null) {
+                      console.log(res.data.Data)
                       app.globalData.oauserInfo = res.data.Data
                       app.globalData.userInputSN = app.globalData.oauserInfo.stunumber
                       app.globalData.userInputPhone = app.globalData.oauserInfo.wxphone
                       //console.log(app.globalData.oauserInfo)
                       //console.log(app.globalData.userInputSN)
                       if(res.data.Data.contacts !== null){
-                        console.log(res.data.Data.contacts)
+                        //console.log(res.data.Data.contacts)
                         //familyPhones: [{ id: 0, name: '', phone: '' }]
                         app.globalData.familyPhones = new Array()
                         for(var i= 0; i<res.data.Data.contacts.length; i++){
@@ -150,7 +161,10 @@ Page({
                         })
                       }
                       that.setData({
-                        oauserInfo: app.globalData.oauserInfo
+                        oauserInfo: app.globalData.oauserInfo,
+                        userInputSN: that.data.userInputSN,
+                        userInputSName:that.data.userInputSName,
+                        userInputPhone:app.globalData.userInputPhone
                       })
                     }
                   }
@@ -172,7 +186,7 @@ Page({
   },
   //获取用户信息
   getUserInfo: function(e) {
-    console.log(e)
+    //console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
@@ -182,7 +196,7 @@ Page({
   },
   //设置显示文本
   setTextShow:function(e){
-    console.log(e)
+    //console.log(e)
     this.setData({
       motto:'1212'
     });
@@ -195,7 +209,7 @@ Page({
 
     var that = this;
     that.setData({ currentTab: e.detail.current });
-    console.log(e.detail.current)
+    //console.log(e.detail.current)
   },
 
   /**
@@ -361,7 +375,7 @@ Page({
   //2.0修改情亲号
   pMBtnClick: function (e) {
     var _this = this
-    var snumber = app.globalData.userInputSN
+    var snumber = _this.data.userInputSN
     //console.log(this.data.userInputSN)
     console.log(app.globalData.userInputSN)
     var cphoneStr = '';
@@ -436,7 +450,7 @@ Page({
     //console.log(this.data.userInfo)
     var _this = this
     var msg = this.data.userInputMsg
-    var snumber = app.globalData.userInputSN
+    var snumber = this.data.userInputSN
     if(msg == ''){
       return
     }
@@ -499,8 +513,73 @@ Page({
   },
   //5.0获取手机号
   getPhoneNumber: function (e) {
-    console.log(e.detail.errMsg)
-    console.log(e.detail.iv)
-    console.log(e.detail.encryptedData)
+    console.log(app.globalData.encryptedObject)
+    var phonedata = app.globalData.encryptedObject.decryptData(e.detail.encryptedData, e.detail.iv)
+    console.log(phonedata)
+    this.data.userInputPhone = phonedata.phoneNumber
+    console.log(app.globalData.userInputPhone)
+
+    var _this = this
+    var username = this.data.userInputSN
+    var pwd = this.data.userInputPW
+    var uPhone = this.data.userInputPhone
+    if (app.globalData.openId == '') {
+      wx.showModal({
+        title: '提示',
+        content: '获取用户信息失败！',
+        success: function (res) {
+        }
+      })
+      return
+    }
+    if (uPhone == '') {
+      console.log('提示输入电话号码')
+      wx.showModal({
+        title: '提示',
+        content: '请点击获取手机号',
+        success: function (res) {
+        }
+      })
+      return
+    }
+    wx.request({
+      url: _this.data.url, // 仅为示例，并非真实的接口地址
+      data: {
+        action: 'wxlogin',
+        uname: username,
+        pwd: pwd,
+        snumber:app.globalData.userInputSN,
+        phone: uPhone,
+        openId: app.globalData.openId
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',// 默认值
+        'api-token': _this.data.token
+      },
+      success(res) {
+        console.log(res.data)
+        var showStr = ''
+        if ("1" == res.data.Status) {
+          showStr = '绑定成功！'
+          _this.setData()
+        } else {
+          showStr = '绑定失败' + (res.data.Msg == null ? '' : '：' + res.data.Msg)
+        }
+        wx.showModal({
+          title: '提示',
+          content: showStr,
+          success: function (res) {
+            //缓存用户信息
+            //用onLoad周期方法重新加载，实现当前页面的刷新
+            _this.onLoad()
+          }
+        })
+        _this.setData({
+          //stunValue:res.data.Data.ClassName
+        }
+        )
+      }
+    })
   },
 })

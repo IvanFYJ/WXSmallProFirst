@@ -2,6 +2,6 @@
 <view class="container">
   <label>{{gname}}</label>
     <view class='itemView' >
-    <button class='fbtn'  wx:for="{{students}}" wx-for-item="item" bindtap='payforstudent' data-id='{{item.sid}}' data-snumber='{{item.snumber}}'  >{{item.sname}}</button>
+    <button  wx:for="{{students}}" wx-for-item="item"  class='fbtn {{item.family}}' bindtap='payforstudent' data-id='{{item.sid}}' data-snumber='{{item.snumber}}' data-sname='{{item.sname}}'  >{{item.sname}}</button>
     </view>
 </view>

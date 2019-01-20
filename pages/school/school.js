@@ -1,5 +1,4 @@
-// pages/grade/grade.js
-
+// pages/school/school.js
 const app = getApp()
 
 Page({
@@ -8,44 +7,41 @@ Page({
    * 页面的初始数据
    */
   data: {
-    grades:[{gid:1,gname:'你'}]
+    schools: [{ sid: 1, sname: '你' }]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //console.log(options.shid)
-    //console.log(app.globalData.token)
     var _this = this;
     //发起网络请求 
     wx.request({
       //这是我自己的java服务器的接口，将login（）获得的code发送的服务器换取session_key
       url: app.globalData.oaurl,
       data: {
-        shid: options.sid,
-        action: 'getgrade'
+        shid: "",
+        action: 'getschool'
       },
       header: {
         'content-type': 'application/json',
         'api-token': app.globalData.token
       },
       method: 'POST',
-      success: function (res){
+      success: function (res) {
         //console.log(res)
-        if(res.data.data !== null){
-          _this.data.grades = new Array()
-          //console.log(res.data.Data.length)
+        if (res.data.data !== null) {
+          _this.data.schools = new Array()
+          console.log(res.data.Data)
           for (var i = 0; i < res.data.Data.length; i++) {
-            _this.data.grades.push({ gid: res.data.Data[i].ID, gname: res.data.Data[i].Name })
+            _this.data.schools.push({ sid: res.data.Data[i].ID, sname: res.data.Data[i].Name })
           }
           _this.setData({
-            grades: _this.data.grades
+            schools: _this.data.schools
           })
         }
       }
     })
-
   },
 
   /**
@@ -97,14 +93,13 @@ Page({
 
   },
   /**
-   * 跳转到班级
+   * 跳转到年级
    */
-  forthclass:function(e){
-    console.log('跳转到学生界面')
-    var gid = e.currentTarget.dataset.id;
+  forthgrade: function (e) {
+    //console.log('跳转到学生界面')
+    var sid = e.currentTarget.dataset.id;
     wx.navigateTo({
-      //url: '/pages/student/student?gid='+gid
-      url: '/pages/class/class?gid=' + gid
+      url: '/pages/grade/grade?sid=' + sid
     })
   }
 })

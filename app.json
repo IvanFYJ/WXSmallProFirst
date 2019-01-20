@@ -1,9 +1,11 @@
 {
   "pages": [
+    "pages/school/school",
+    "pages/grade/grade",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/grade/grade",
-    "pages/student/student"
+    "pages/student/student",
+    "pages/class/class"
   ],
   "window": {
     "backgroundTextStyle": "light",
