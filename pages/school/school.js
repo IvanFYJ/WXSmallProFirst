@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    schools: [{ sid: 1, sname: '你' }]
+    schools: [{ sid: 1, sname: '' }]
   },
 
   /**
