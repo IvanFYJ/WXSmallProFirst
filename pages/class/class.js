@@ -8,7 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    classes: [{ gid: 1, gname: '你', family:'' }]
+    classes: [{ gid: 1, gname: '', family:'' }],
+    shoolname: '',
+    gradename:''
   },
 
   /**
@@ -38,7 +40,9 @@ Page({
             _this.data.grades.push({ gid: res.data.Data[i].Gid, gname: res.data.Data[i].Gname})
           }
           _this.setData({
-            grades: _this.data.grades
+            grades: _this.data.grades,
+            shoolname: options.schoolname,
+            gradename:options.gname
           })
         }
       }

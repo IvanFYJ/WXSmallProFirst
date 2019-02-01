@@ -98,8 +98,9 @@ Page({
   forthgrade: function (e) {
     //console.log('跳转到学生界面')
     var sid = e.currentTarget.dataset.id;
+    var sname = e.currentTarget.dataset.name;
     wx.navigateTo({
-      url: '/pages/grade/grade?sid=' + sid
+      url: '/pages/grade/grade?sid=' + sid+'&sname='+sname
     })
   }
 })

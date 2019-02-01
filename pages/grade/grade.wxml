@@ -1,7 +1,9 @@
 <!--pages/grade/grade.wxml-->
 <view class="container">
-  <label>深某市第一小学</label>
+  <label>{{shoolname}}</label>
       <view class='itemView' >
-      <button class='fbtn'  wx:for="{{grades}}" wx-for-item="item" bindtap='forthclass' data-id='{{item.gid}}'  >{{item.gname}}</button>
+      <button class='fbtn'  wx:for="{{grades}}" wx-for-item="item" bindtap='forthclass'
+       data-id='{{item.gid}}'
+       data-name='{{item.gname}}'  >{{item.gname}}</button>
       </view>
 </view>

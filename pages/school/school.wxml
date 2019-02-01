@@ -2,6 +2,8 @@
 <view class="container">
   <label>深圳市鸿安信科技有限公司研发</label>
       <view  >
-      <button class='fbtn'  wx:for="{{schools}}" wx-for-item="item" bindtap='forthgrade' data-id='{{item.sid}}'  >{{item.sname}}></button>
+      <button class='fbtn'  wx:for="{{schools}}" wx-for-item="item" bindtap='forthgrade' 
+      data-id='{{item.sid}}'
+      data-name='{{item.sname}}'  >{{item.sname}}></button>
       </view>
 </view>

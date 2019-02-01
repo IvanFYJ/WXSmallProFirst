@@ -8,14 +8,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    grades:[{gid:1,gname:'你'}]
+    grades:[{gid:1,gname:''}],
+    shoolname:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //console.log(options.shid)
+    console.log(options.sname)
     //console.log(app.globalData.token)
     var _this = this;
     //发起网络请求 
@@ -40,7 +41,8 @@ Page({
             _this.data.grades.push({ gid: res.data.Data[i].ID, gname: res.data.Data[i].Name })
           }
           _this.setData({
-            grades: _this.data.grades
+            grades: _this.data.grades,
+            shoolname:options.sname
           })
         }
       }
@@ -100,11 +102,13 @@ Page({
    * 跳转到班级
    */
   forthclass:function(e){
-    console.log('跳转到学生界面')
+    //console.log('跳转到学生界面')
     var gid = e.currentTarget.dataset.id;
+    var gname = e.currentTarget.dataset.name 
+    console.log(gname)
     wx.navigateTo({
       //url: '/pages/student/student?gid='+gid
-      url: '/pages/class/class?gid=' + gid
+      url: '/pages/class/class?gid=' + gid +'&schoolname='+this.data.shoolname + '&gname=' + gname
     })
   }
 })
