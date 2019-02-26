@@ -7,7 +7,8 @@ Page({
    */
   data: {
     students:[],
-    gname:''
+    gname:'',
+    gaddress:''
   },
 
   /**
@@ -17,6 +18,7 @@ Page({
     //console.log(options)
     var _this = this;
     var gid = options.gid
+    _this.data.gaddress = options.gaddress
     //发起网络请求 
     wx.request({
       //这是我自己的java服务器的接口，将login（）获得的code发送的服务器换取session_key
@@ -33,7 +35,10 @@ Page({
       method: 'POST',
       success: function (res) {
        // console.log(res)
-        if (res.data.data !== null) {
+        if (res.data.data !== null 
+        && res.data.Data.stuList !== null 
+        && res.data.Data.stuList !== undefined
+          && res.data.Data.stuList.length > 0 ) {
           _this.data.students = new Array()
           console.log(res.data.Data.famList)
           _this.data.gname = res.data.Data.stuList[0].Gname
@@ -52,7 +57,8 @@ Page({
           }
           _this.setData({
             students: _this.data.students,
-            gname: _this.data.gname
+            gname: _this.data.gname,
+            gaddress: _this.data.gaddress
           })
         }
       }

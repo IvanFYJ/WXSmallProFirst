@@ -8,7 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    classes: [{ gid: 1, gname: '', family:'' }],
+    classes: [{ gid: 1, gname: '', family:'',gaddress:'' }],
     shoolname: '',
     gradename:''
   },
@@ -32,12 +32,17 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        //console.log(res)
+        console.log(res)
         if (res.data.data !== null) {
           _this.data.grades = new Array()
           console.log(res.data.Data.length)
           for (var i = 0; i < res.data.Data.length; i++) {
-            _this.data.grades.push({ gid: res.data.Data[i].Gid, gname: res.data.Data[i].Gname})
+            _this.data.grades.push(
+              { 
+                gid: res.data.Data[i].Gid, 
+                gname: res.data.Data[i].Gname,
+                gaddress: res.data.Data[i].Gdescription}
+              )
           }
           _this.setData({
             grades: _this.data.grades,
@@ -102,9 +107,11 @@ Page({
    */
   forthstudent: function (e) {
     //console.log('跳转到学生界面')
-    var gid = e.currentTarget.dataset.id;
+    var gid = e.currentTarget.dataset.id
+    var gname = e.currentTarget.dataset.gname
+    var gaddress = e.currentTarget.dataset.gaddress
     wx.navigateTo({
-      url: '/pages/student/student?gid='+gid
+      url: '/pages/student/student?gid='+gid+'&gname='+gname+'&gaddress='+gaddress
     })
   }
 })

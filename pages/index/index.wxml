@@ -22,7 +22,7 @@
     <!-- 我是哈哈 -->
     <swiper-item>
           <view style=''  class='itemView'>选择的学号：
-          <input disabled='true' class="input" name="userName"value="{{userInputSN}}" bindinput =""/>
+          <input disabled='true' class="input" name="userName" data-snumber='{{userInputSN}}' value="********" bindinput =""/>
           </view>
           <view style=''  class='itemView'>选择的学生：
           <input disabled='true' class="input" name="userName"value="{{userInputSName}}" bindinput =""/>
@@ -61,6 +61,7 @@
     <!-- 我是呵呵 -->
     <swiper-item>
       <view><button bindtap='phoneBtnClick' >添加</button></view>
+      <view><input  class="input" name="chSnumber" value="" bindinput='checkSNumberInput' placeholder="请输入学号作为验证"  /></view>
       <view class='itemView' wx:for="{{familyPhones}}" wx-for-item="item" >
       <input class='fninput'  type='text' placeholder="中文内容" name='fPhoneName' value='{{item.name}}' data-id='{{item.id}}'  bindinput='fPhoneNameInput' ></input>
       <input class='fphone' type='number'  placeholder="电话号码"  name='fPhoneNumber' value='{{item.phone}}'  data-id='{{item.id}}'  bindinput='fPhoneNumberInput' ></input>

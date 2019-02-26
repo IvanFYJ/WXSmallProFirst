@@ -3,6 +3,6 @@
   <label>{{shoolname}}</label>
   <label>{{gradename}}</label>
       <view class='itemView' >
-      <button  wx:for="{{grades}}" class='fbtn {{item.family}}' wx-for-item="item" bindtap='forthstudent' data-id='{{item.gid}}'  >{{item.gname}}</button>
+      <button  wx:for="{{grades}}" class='fbtn {{item.family}}' wx-for-item="item" bindtap='forthstudent' data-id='{{item.gid}}' data-gname='{{item.gname}}' data-gaddress='{{item.gaddress}}'  >{{item.gname}}</button>
       </view>
 </view>

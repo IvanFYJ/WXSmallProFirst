@@ -34,7 +34,8 @@ Page({
     encryptedData: '' ,
     encryptedObject:{},
     oauserInfo:{},
-    familyPhones: [{ id: 0, name: '', phone: '' }]
+    familyPhones: [{ id: 0, name: '', phone: '' }],
+    chSnumber:''
   },
   select: {
     page: 1,
@@ -363,6 +364,9 @@ Page({
       }
     }
   },
+  checkSNumberInput:function(e){
+    this.data.chSnumber = e.detail.value
+  },
   //2.0修改情亲号电话
   fPhoneNumberInput: function (e) {
     var pid = e.currentTarget.dataset.id;
@@ -385,6 +389,17 @@ Page({
       wx.showModal({
         title: '提示',
         content: '请绑定学号',
+        success: function (res) {
+        }
+      })
+      return
+    }
+    //验证用户输入的学生学号是否一致
+    if (_this.data.userInputSN != _this.data.chSnumber) {
+      console.log("当前学号:"+_this.data.userInputSN+" 验证学号："+_this.data.chSnumber)
+      wx.showModal({
+        title: '提示',
+        content: '请输入当前选择的学生学号',
         success: function (res) {
         }
       })
