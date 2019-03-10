@@ -380,6 +380,7 @@ Page({
   pMBtnClick: function (e) {
     var _this = this
     var snumber = _this.data.userInputSN
+    var spassword = _this.data.userInputPW
     //console.log(this.data.userInputSN)
     console.log(app.globalData.userInputSN)
     var cphoneStr = '';
@@ -389,6 +390,15 @@ Page({
       wx.showModal({
         title: '提示',
         content: '请绑定学号',
+        success: function (res) {
+        }
+      })
+      return
+    }
+    if (spassword == ''){
+      wx.showModal({
+        title: '提示',
+        content: '请输入密码',
         success: function (res) {
         }
       })
@@ -414,7 +424,7 @@ Page({
       }
     }
 
-    var data = { sNumber: snumber, cPhone: cphoneStr, cPhoneName: cnameStr, action: 'setcontact', unionid: '', cPhone2: '', cPhone3: '', cPhone4: '',  }
+    var data = { sNumber: snumber, password: spassword, cPhone: cphoneStr, cPhoneName: cnameStr, action: 'setcontact', unionid: '', cPhone2: '', cPhone3: '', cPhone4: '',  }
     console.log(data)
     wx.getUserInfo({
       success: function (res) {
