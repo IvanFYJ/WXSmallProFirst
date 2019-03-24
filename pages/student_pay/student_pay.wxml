@@ -1,0 +1,8 @@
+<!--pages/student_pay/student_pay.wxml-->
+<view class="container">
+  <label>{{sName}}</label>
+  <label>支付金额：200元</label>
+    <view class='itemView' >
+    <button bindtap='payClick' >确定</button>
+    </view>
+</view>

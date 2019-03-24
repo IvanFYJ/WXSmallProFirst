@@ -35,7 +35,8 @@ Page({
     encryptedObject:{},
     oauserInfo:{},
     familyPhones: [{ id: 0, name: '', phone: '' }],
-    chSnumber:''
+    chSnumber:'',
+    studentPayStatus:0
   },
   select: {
     page: 1,
@@ -55,6 +56,10 @@ Page({
       console.log(options.sname+':'+options.snumber)
       that.data.userInputSName = options.sname
       that.data.userInputSN = options.snumber
+      debugger
+      if (options.studentPayStatus!== undefined){
+        that.data.studentPayStatus = options.studentPayStatus;
+      }
     }
     if (app.globalData.userInfo) {
       this.setData({
@@ -385,6 +390,20 @@ Page({
     console.log(app.globalData.userInputSN)
     var cphoneStr = '';
     var cnameStr = '';
+
+    if (_this.data.studentPayStatus == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '此学生未缴费！',
+        confirmText: '缴费',
+        success: function (res) {
+          wx.navigateTo({
+            url: '/pages/student_pay/student_pay?snumber=' + snumber + '&sname=' + _this.data.userInputSName
+          })
+        }
+      })
+      return
+    }
 
     if (snumber == '') {
       wx.showModal({

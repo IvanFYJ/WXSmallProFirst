@@ -5,7 +5,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/student/student",
-    "pages/class/class"
+    "pages/class/class",
+    "pages/student_pay/student_pay"
   ],
   "window": {
     "backgroundTextStyle": "light",
