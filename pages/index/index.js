@@ -11,6 +11,9 @@ var WXBizDataCrypt = require('../../utils/cryptojs/RdWXBizDataCrypt.js');
 //var appId = 'wx4f4bc4dec97d474b'
 //var sessionKey = 'tiihtNczf5v6AKRyjwEUhQ=='
 var regNum = new RegExp('[0-9]', 'g');
+var storage_name_student_number = 'user_input_student_number';
+var storage_name_student_password = 'user_input_student_password';
+var storage_name_student_family  = 'user_input_student_family';
 
 
 Page({
@@ -36,7 +39,9 @@ Page({
     oauserInfo:{},
     familyPhones: [{ id: 0, name: '', phone: '' }],
     chSnumber:'',
-    studentPayStatus:0
+    studentPayStatus:0,
+    familyUserInputNumber:'',
+    familyUserInputPassword:''
   },
   select: {
     page: 1,
@@ -56,7 +61,6 @@ Page({
       console.log(options.sname+':'+options.snumber)
       that.data.userInputSName = options.sname
       that.data.userInputSN = options.snumber
-      debugger
       if (options.studentPayStatus!== undefined){
         that.data.studentPayStatus = options.studentPayStatus;
       }
@@ -155,7 +159,15 @@ Page({
                       app.globalData.userInputPhone = app.globalData.oauserInfo.wxphone
                       //console.log(app.globalData.oauserInfo)
                       //console.log(app.globalData.userInputSN)
-                      if(res.data.Data.contacts !== null){
+                      //获取存储信息
+                      var tempFamilyArr = [];
+                      var tempStudentInputNumber = ''
+                      var tempStudentInputPassword = ''
+                      tempFamilyArr = wx.getStorageSync(storage_name_student_family)
+                      tempStudentInputNumber = wx.getStorageSync(storage_name_student_number)
+                      tempStudentInputPassword = wx.getStorageSync(storage_name_student_password)
+
+                      if (res.data.Data.contacts !== null && tempFamilyArr.length <= 0){
                         //console.log(res.data.Data.contacts)
                         //familyPhones: [{ id: 0, name: '', phone: '' }]
                         app.globalData.familyPhones = new Array()
@@ -165,6 +177,34 @@ Page({
                         that.setData({
                           familyPhones: app.globalData.familyPhones
                         })
+                      } else if (tempFamilyArr.length > 0) {
+                        //设置情亲号码
+                        that.setData({
+                          familyPhones: tempFamilyArr
+                        })
+                        //设置用户输入亲情号学生学号
+                        that.setData({
+                          familyUserInputNumber: tempStudentInputNumber
+                        })
+                        that.setData({
+                          familyUserInputPassword: tempStudentInputPassword
+                        })
+                        that.setData({
+                          currentTab:1
+                        })
+                        //清空缓存
+                        try {
+                          wx.removeStorageSync(storage_name_student_family)
+                        } catch (e) {
+                        }
+                        try {
+                          wx.removeStorageSync(storage_name_student_number)
+                        } catch (e) {
+                        }
+                        try {
+                          wx.removeStorageSync(storage_name_student_password)
+                        } catch (e) {
+                        }
                       }
                       that.setData({
                         oauserInfo: app.globalData.oauserInfo,
@@ -386,35 +426,22 @@ Page({
     var _this = this
     var snumber = _this.data.userInputSN
     var spassword = _this.data.userInputPW
+    var tempFamilyArr = []
     //console.log(this.data.userInputSN)
     console.log(app.globalData.userInputSN)
     var cphoneStr = '';
     var cnameStr = '';
 
-    if (_this.data.studentPayStatus == 0) {
-      wx.showModal({
-        title: '提示',
-        content: '此学生未缴费！',
-        confirmText: '缴费',
-        success: function (res) {
-          wx.navigateTo({
-            url: '/pages/student_pay/student_pay?snumber=' + snumber + '&sname=' + _this.data.userInputSName
-          })
-        }
-      })
-      return
-    }
-
     if (snumber == '') {
       wx.showModal({
         title: '提示',
-        content: '请绑定学号',
+        content: '请输入学号',
         success: function (res) {
         }
       })
       return
     }
-    if (spassword == ''){
+    if (spassword == '') {
       wx.showModal({
         title: '提示',
         content: '请输入密码',
@@ -423,6 +450,37 @@ Page({
       })
       return
     }
+
+
+    for (var i = 0; i < this.data.familyPhones.length; i++) {
+      cphoneStr += this.data.familyPhones[i].phone
+      cnameStr += this.data.familyPhones[i].name
+      if (i <= this.data.familyPhones.length - 1) {
+        cphoneStr += ','
+        cnameStr += ','
+      }
+    }
+
+    tempFamilyArr = this.data.familyPhones;
+
+    if (_this.data.studentPayStatus == 0) {
+      wx.showModal({
+        title: '提示',
+        content: '此学生未缴费！',
+        confirmText: '缴费',
+        success: function (res) {
+          //缓存数据
+          wx.setStorageSync(storage_name_student_number, snumber)
+          wx.setStorageSync(storage_name_student_password, spassword)
+          wx.setStorageSync(storage_name_student_family, tempFamilyArr)
+          wx.navigateTo({
+            url: '/pages/student_pay/student_pay?snumber=' + snumber + '&sname=' + _this.data.userInputSName
+          })
+        }
+      })
+      return
+    }
+
     //验证用户输入的学生学号是否一致
     if (_this.data.userInputSN != _this.data.chSnumber) {
       console.log("当前学号:"+_this.data.userInputSN+" 验证学号："+_this.data.chSnumber)
@@ -433,14 +491,6 @@ Page({
         }
       })
       return
-    }
-    for (var i = 0; i < this.data.familyPhones.length; i++) {
-        cphoneStr += this.data.familyPhones[i].phone
-        cnameStr += this.data.familyPhones[i].name
-      if (i <= this.data.familyPhones.length-1){
-        cphoneStr += ','
-        cnameStr += ','
-      }
     }
 
     var data = { sNumber: snumber, password: spassword, cPhone: cphoneStr, cPhoneName: cnameStr, action: 'setcontact', unionid: '', cPhone2: '', cPhone3: '', cPhone4: '',  }

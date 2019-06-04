@@ -69,3 +69,14 @@
   font-size:12px;
 }
 /**页view切换样式  接受**/
+
+/*学生号输入框样式*/
+.familyView{
+  padding-top: 5px;
+}
+
+.familyView input{
+  border: 1px solid lightgray;
+  width: 60%;
+  margin: auto;
+}

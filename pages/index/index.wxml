@@ -58,16 +58,16 @@
     <!-- 我是呵呵 -->
     <swiper-item>
       <view><button bindtap='phoneBtnClick' >添加</button></view>
-      <view><input  class="input" name="chSnumber" value="" bindinput='checkSNumberInput' placeholder="请输入学号作为验证"  /></view>
-      <view>
-      <input class="input" name="userPass"value="" password placeholder="请输入密码为验证" bindinput ="userPassInput"/>
+      <view class='familyView' ><input  class="input" name="chSnumber" value="{{familyUserInputNumber}}" bindinput='checkSNumberInput' placeholder="请输入学号作为验证"  /></view>
+      <view class='familyView'>
+      <input class="input" name="userPass"value="{{familyUserInputPassword}}" password placeholder="请输入密码为验证" bindinput ="userPassInput"/>
       </view>
       <view class='itemView' wx:for="{{familyPhones}}" wx-for-item="item" >
       <input class='fninput'  type='text' placeholder="中文内容" name='fPhoneName' value='{{item.name}}' data-id='{{item.id}}'  bindinput='fPhoneNameInput' ></input>
       <input class='fphone' type='number'  placeholder="电话号码"  name='fPhoneNumber' value='{{item.phone}}'  data-id='{{item.id}}'  bindinput='fPhoneNumberInput' ></input>
       <button class='fbtn' bindtap='pDelBtnClick' data-id='{{item.id}}'  >删除</button>
       </view>
-      <view><button bindtap='pMBtnClick' >提交情亲号</button></view>
+      <view><button bindtap='pMBtnClick' >提交亲情号</button></view>
     </swiper-item>
     <!-- 我是嘿嘿 -->
     <swiper-item>
