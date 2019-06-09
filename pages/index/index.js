@@ -424,13 +424,21 @@ Page({
   //2.0修改情亲号
   pMBtnClick: function (e) {
     var _this = this
-    var snumber = _this.data.userInputSN
+    var snumber = _this.data.chSnumber
     var spassword = _this.data.userInputPW
     var tempFamilyArr = []
-    //console.log(this.data.userInputSN)
+    console.log(this.data.userInputSN)
     console.log(app.globalData.userInputSN)
     var cphoneStr = '';
     var cnameStr = '';
+    
+    if(spassword == '' && _this.data.familyUserInputPassword != ''){
+      spassword = _this.data.familyUserInputPassword;
+    }
+
+    if (snumber == '' && _this.data.familyUserInputNumber != '') {
+      snumber = _this.data.familyUserInputNumber;
+    }
 
     if (snumber == '') {
       wx.showModal({
@@ -482,8 +490,8 @@ Page({
     }
 
     //验证用户输入的学生学号是否一致
-    if (_this.data.userInputSN != _this.data.chSnumber) {
-      console.log("当前学号:"+_this.data.userInputSN+" 验证学号："+_this.data.chSnumber)
+    if (_this.data.userInputSN != snumber) {
+      console.log("当前学号:" + _this.data.userInputSN + " 验证学号：" + snumber)
       wx.showModal({
         title: '提示',
         content: '请输入当前选择的学生学号',
